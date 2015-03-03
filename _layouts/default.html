@@ -44,10 +44,40 @@
       </div>
     </div> <!-- end nav -->
     <!-- Set carousel: true in YAML text header for pages to get carousel -->
-    {% if page.carousel %} 
-      {% include carousel.html %}
+    {% if page.carousel %}
+    <div id="builds-carousel" class='carousel slide'>
+      <div class='carousel-inner'>
+        <div class='item active'>
+          <div class="container ">
+            {% for item in site.tags.front limit: 1%}
+            <div class="row-fluid">
+              <div class="span4 text-center">
+                <center>
+                <a href="{{site.base}}{{item.url}}">
+                  {% if item.image_url %}
+                  <img src="{{site.base}}{{item.image_url}}" class="thumbnail carousel-img" />
+                  {% else %}
+                  <img src="{{site.base}}/assets/img/posts/default.jpg" class='thumbnail carousel-img'/>
+                  {% endif %}
+                </a>
+              </center>
+              </div>
+              <div class="span7  carousel-post">
+                <h2><a href="{{site.base}}{{item.url}}">{{item.title}}</a></h2>
+                {%  if item.content contains "<!-- more -->" %}
+                {{ item.content | split:"<!-- more -->" | first }}
+                {% else %}
+                {{ item.content | strip_html | truncatewords:200 }} ...
+                {% endif %}
+                <a class="btn btn-danger" href="{{site.base}}{{item.url}}">Read More &rsaquo;&rsaquo;</a>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
     {% endif %}
-
 
     <div class="container" style="background-color:white; margin-top:50px">
       <div class="main row-fluid">
@@ -61,8 +91,9 @@
       </div> <!-- end main -->
 
       <div class="footer row-fluid">
-        <div class="span6">Copyright  &copy; BUILDS 2013</div>
-        <div class="span6 text-right pull-right">Powered by <a href="http://getbootstrap.com/2.3.2/">Bootstrap 2.3.2</a> and <a href="http://jekyllrb.com">Jekyll</a></div>
+        <div class="span4">Copyright  &copy; BUILDS 2013</div>
+        <div class="span4">Report Issues or Contribute on <a href="https://github.com/BUILDS-/builds-static">Github</a></div>
+        <div class="span4 text-right pull-right">Powered by <a href="http://getbootstrap.com/2.3.2/">Bootstrap 2.3.2</a> and <a href="http://jekyllrb.com">Jekyll</a></div>
       </div> <!-- end footer -->
     </div> <!-- end container -->
     <script src="{{site.base}}/assets/js/jquery-1.10.2.min.js" ></script>
